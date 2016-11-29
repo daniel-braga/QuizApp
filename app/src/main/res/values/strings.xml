@@ -44,6 +44,7 @@
     <string name="q10_a2_text">__destruct()</string>
     <string name="q10_a3_text">destructor()</string>
     <string name="q10_a4_text">None of the above.</string>
+    <string name="q11_text">Q11 - All variables in PHP start with which symbol?</string>
     <string name="reset">Reset</string>
     <string name="submit">Submit</string>
     <string name="your_score">Your Score</string>

@@ -35,6 +35,8 @@
 
         <include layout="@layout/question_10" />
 
+        <include layout="@layout/question_11" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +65,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/colorPrimary"
-                android:textSize="30sp"
+                android:textSize="@dimen/score_text_size"
                 android:visibility="invisible" />
 
             <Button

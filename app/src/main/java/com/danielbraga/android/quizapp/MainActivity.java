@@ -5,21 +5,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * Total de acertos possíveis
-     */
-    static final int TOTAL = 14;
+    static final int MAX_RIGHT_ANSWERS = 15;
     static final String STATE_SCORE = "quizScore";
     static final String STATE_VISIBILITY = "quizVisibility";
-    /**
-     * Total de pontos
-     */
+    static final String STATE_ANSWER11 = "quizAnswer11";
     private int score = 0;
 
     @Override
@@ -27,8 +23,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        EditText question11Answer = (EditText) findViewById(R.id.q11_a);
+
         if (savedInstanceState != null) {
             score = savedInstanceState.getInt(STATE_SCORE);
+            question11Answer.setText(savedInstanceState.getString(STATE_ANSWER11));
             if (savedInstanceState.getBoolean(STATE_VISIBILITY)) {
                 displayScore(score);
             }
@@ -38,134 +37,131 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         TextView scoreTextView = (TextView) findViewById(R.id.score_text_view);
+        EditText question11Answer = (EditText) findViewById(R.id.q11_a);
 
-        // Salva o estado atual da atividade
         savedInstanceState.putInt(STATE_SCORE, score);
         savedInstanceState.putBoolean(STATE_VISIBILITY, scoreTextView.getVisibility() == View.VISIBLE);
+        savedInstanceState.putString(STATE_ANSWER11, question11Answer.getText().toString());
 
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    /**
-     * Limpa a interface para ser respondida novamente
-     *
-     * @param view Botão que disparou o evento
-     */
+    private void uncheckCheckBox(int resourceId) {
+        CheckBox check = (CheckBox) findViewById(resourceId);
+        check.setChecked(false);
+    }
+
+    private void uncheckRadioGroup(int resourceId) {
+        RadioGroup radio = (RadioGroup) findViewById(resourceId);
+        radio.clearCheck();
+    }
+
+    private void clearAnswers() {
+        EditText question11Answer = (EditText) findViewById(R.id.q11_a);
+        question11Answer.setText("");
+
+        uncheckCheckBox(R.id.q1_a1);
+        uncheckCheckBox(R.id.q1_a2);
+        uncheckCheckBox(R.id.q2_a1);
+        uncheckCheckBox(R.id.q2_a2);
+        uncheckCheckBox(R.id.q2_a3);
+        uncheckCheckBox(R.id.q3_a1);
+        uncheckCheckBox(R.id.q3_a2);
+        uncheckRadioGroup(R.id.q4_a);
+        uncheckRadioGroup(R.id.q5_a);
+        uncheckRadioGroup(R.id.q6_a);
+        uncheckRadioGroup(R.id.q7_a);
+        uncheckRadioGroup(R.id.q8_a);
+        uncheckRadioGroup(R.id.q9_a);
+        uncheckRadioGroup(R.id.q10_a);
+    }
+
     public void resetScore(View view) {
         score = 0;
 
-        CheckBox question1Answer1 = (CheckBox) findViewById(R.id.q1_a1);
-        CheckBox question1Answer2 = (CheckBox) findViewById(R.id.q1_a2);
-        CheckBox question2Answer1 = (CheckBox) findViewById(R.id.q2_a1);
-        CheckBox question2Answer2 = (CheckBox) findViewById(R.id.q2_a2);
-        CheckBox question2Answer3 = (CheckBox) findViewById(R.id.q2_a3);
-        CheckBox question3Answer1 = (CheckBox) findViewById(R.id.q3_a1);
-        CheckBox question3Answer2 = (CheckBox) findViewById(R.id.q3_a2);
-        RadioGroup question4Answer = (RadioGroup) findViewById(R.id.q4_a);
-        RadioGroup question5Answer = (RadioGroup) findViewById(R.id.q5_a);
-        RadioGroup question6Answer = (RadioGroup) findViewById(R.id.q6_a);
-        RadioGroup question7Answer = (RadioGroup) findViewById(R.id.q7_a);
-        RadioGroup question8Answer = (RadioGroup) findViewById(R.id.q8_a);
-        RadioGroup question9Answer = (RadioGroup) findViewById(R.id.q9_a);
-        RadioGroup question10Answer = (RadioGroup) findViewById(R.id.q10_a);
-        TextView yourScoreTextView = (TextView) findViewById(R.id.your_score_text_view);
         TextView scoreTextView = (TextView) findViewById(R.id.score_text_view);
+        TextView yourScoreTextView = (TextView) findViewById(R.id.your_score_text_view);
 
-        question1Answer1.setChecked(false);
-        question1Answer2.setChecked(false);
-        question2Answer1.setChecked(false);
-        question2Answer2.setChecked(false);
-        question2Answer3.setChecked(false);
-        question3Answer1.setChecked(false);
-        question3Answer2.setChecked(false);
-        question4Answer.clearCheck();
-        question5Answer.clearCheck();
-        question6Answer.clearCheck();
-        question7Answer.clearCheck();
-        question8Answer.clearCheck();
-        question9Answer.clearCheck();
-        question10Answer.clearCheck();
-
+        clearAnswers();
         yourScoreTextView.setVisibility(View.INVISIBLE);
         scoreTextView.setVisibility(View.INVISIBLE);
     }
 
-    /**
-     * Valida as respostas e exibe o percentual de acerto
-     *
-     * @param view Bot"ao que disparou o evento
-     */
-    public void submit(View view) {
+    public int validateAnswerFromCheckBox(int resourceId) {
+        CheckBox answer = (CheckBox) findViewById(resourceId);
+
+        if (resourceId == R.id.q1_a1 && answer.isChecked()) {
+            return 1;
+        } else if (resourceId == R.id.q1_a2 && answer.isChecked()) {
+            return 1;
+        } else if (resourceId == R.id.q2_a1 && answer.isChecked()) {
+            return 1;
+        } else if (resourceId == R.id.q2_a2 && answer.isChecked()) {
+            return 1;
+        } else if (resourceId == R.id.q2_a3 && answer.isChecked()) {
+            return 1;
+        } else if (resourceId == R.id.q3_a1 && answer.isChecked()) {
+            return 1;
+        } else if (resourceId == R.id.q3_a2 && answer.isChecked()) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public int validateAnswerFromRadioGroup(int resourceId) {
+        RadioGroup answer = (RadioGroup) findViewById(resourceId);
+
+        if (answer.getCheckedRadioButtonId() == R.id.q4_a3) {
+            return 1;
+        } else if (answer.getCheckedRadioButtonId() == R.id.q5_a1) {
+            return 1;
+        } else if (answer.getCheckedRadioButtonId() == R.id.q6_a2) {
+            return 1;
+        } else if (answer.getCheckedRadioButtonId() == R.id.q7_a2) {
+            return 1;
+        } else if (answer.getCheckedRadioButtonId() == R.id.q8_a4) {
+            return 1;
+        } else if (answer.getCheckedRadioButtonId() == R.id.q9_a3) {
+            return 1;
+        } else if (answer.getCheckedRadioButtonId() == R.id.q10_a2) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public float calculateRightAnswers() {
+        EditText question11Answer = (EditText) findViewById(R.id.q11_a);
         float rightAnswers = 0;
 
-        CheckBox question1Answer1 = (CheckBox) findViewById(R.id.q1_a1);
-        CheckBox question1Answer2 = (CheckBox) findViewById(R.id.q1_a2);
-        CheckBox question2Answer1 = (CheckBox) findViewById(R.id.q2_a1);
-        CheckBox question2Answer2 = (CheckBox) findViewById(R.id.q2_a2);
-        CheckBox question2Answer3 = (CheckBox) findViewById(R.id.q2_a3);
-        CheckBox question3Answer1 = (CheckBox) findViewById(R.id.q3_a1);
-        CheckBox question3Answer2 = (CheckBox) findViewById(R.id.q3_a2);
-        RadioGroup question4Answer = (RadioGroup) findViewById(R.id.q4_a);
-        RadioGroup question5Answer = (RadioGroup) findViewById(R.id.q5_a);
-        RadioGroup question6Answer = (RadioGroup) findViewById(R.id.q6_a);
-        RadioGroup question7Answer = (RadioGroup) findViewById(R.id.q7_a);
-        RadioGroup question8Answer = (RadioGroup) findViewById(R.id.q8_a);
-        RadioGroup question9Answer = (RadioGroup) findViewById(R.id.q9_a);
-        RadioGroup question10Answer = (RadioGroup) findViewById(R.id.q10_a);
+        rightAnswers += validateAnswerFromCheckBox(R.id.q1_a1);
+        rightAnswers += validateAnswerFromCheckBox(R.id.q1_a2);
+        rightAnswers += validateAnswerFromCheckBox(R.id.q2_a1);
+        rightAnswers += validateAnswerFromCheckBox(R.id.q2_a2);
+        rightAnswers += validateAnswerFromCheckBox(R.id.q2_a3);
+        rightAnswers += validateAnswerFromCheckBox(R.id.q3_a1);
+        rightAnswers += validateAnswerFromCheckBox(R.id.q3_a2);
+        rightAnswers += validateAnswerFromRadioGroup(R.id.q4_a);
+        rightAnswers += validateAnswerFromRadioGroup(R.id.q5_a);
+        rightAnswers += validateAnswerFromRadioGroup(R.id.q6_a);
+        rightAnswers += validateAnswerFromRadioGroup(R.id.q7_a);
+        rightAnswers += validateAnswerFromRadioGroup(R.id.q8_a);
+        rightAnswers += validateAnswerFromRadioGroup(R.id.q9_a);
+        rightAnswers += validateAnswerFromRadioGroup(R.id.q10_a);
 
-        if (question1Answer1.isChecked()) {
-            rightAnswers++;
-        }
-        if (question1Answer2.isChecked()) {
-            rightAnswers++;
-        }
-        if (question2Answer1.isChecked()) {
-            rightAnswers++;
-        }
-        if (question2Answer2.isChecked()) {
-            rightAnswers++;
-        }
-        if (question2Answer3.isChecked()) {
-            rightAnswers++;
-        }
-        if (question3Answer1.isChecked()) {
-            rightAnswers++;
-        }
-        if (question3Answer2.isChecked()) {
-            rightAnswers++;
-        }
-        if (question4Answer.getCheckedRadioButtonId() == R.id.q4_a3) {
-            rightAnswers++;
-        }
-        if (question5Answer.getCheckedRadioButtonId() == R.id.q5_a1) {
-            rightAnswers++;
-        }
-        if (question6Answer.getCheckedRadioButtonId() == R.id.q6_a2) {
-            rightAnswers++;
-        }
-        if (question7Answer.getCheckedRadioButtonId() == R.id.q7_a2) {
-            rightAnswers++;
-        }
-        if (question8Answer.getCheckedRadioButtonId() == R.id.q8_a4) {
-            rightAnswers++;
-        }
-        if (question9Answer.getCheckedRadioButtonId() == R.id.q9_a3) {
-            rightAnswers++;
-        }
-        if (question10Answer.getCheckedRadioButtonId() == R.id.q10_a2) {
+        if (question11Answer.getText().toString().compareTo("$") == 0) {
             rightAnswers++;
         }
 
-        score = Math.round(rightAnswers / TOTAL * 100);
+        return rightAnswers;
+    }
+
+    public void submit(View view) {
+        float rightAnswers = calculateRightAnswers();
+        score = Math.round(rightAnswers / MAX_RIGHT_ANSWERS * 100);
         displayScore(score);
         displayToast(score);
     }
 
-    /**
-     * Exibe a pontuação do usuário
-     *
-     * @param number Pontuação a ser exibida
-     */
     private void displayScore(int number) {
         TextView yourScoreTextView = (TextView) findViewById(R.id.your_score_text_view);
         TextView scoreTextView = (TextView) findViewById(R.id.score_text_view);
