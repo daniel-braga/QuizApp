@@ -1,0 +1,16 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        style="@style/QuestionStyle"
+        android:text="@string/q3_text" />
+
+    <CheckBox
+        android:id="@+id/q3_a1"
+        style="@style/AnswerStyle"
+        android:text="@string/q3_a1_text" />
+
+    <CheckBox
+        android:id="@+id/q3_a2"
+        style="@style/AnswerStyle"
+        android:text="@string/q3_a2_text" />
+</merge>

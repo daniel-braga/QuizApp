@@ -1,0 +1,33 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        style="@style/QuestionStyle"
+        android:text="@string/q5_text" />
+
+    <RadioGroup
+        android:id="@+id/q5_a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/q5_a1"
+            style="@style/AnswerStyle"
+            android:text="@string/q5_a1_text" />
+
+        <RadioButton
+            android:id="@+id/q5_a2"
+            style="@style/AnswerStyle"
+            android:text="@string/q5_a2_text" />
+
+        <RadioButton
+            android:id="@+id/q5_a3"
+            style="@style/AnswerStyle"
+            android:text="@string/q5_a3_text" />
+
+        <RadioButton
+            android:id="@+id/q5_a4"
+            style="@style/AnswerStyle"
+            android:text="@string/q5_a4_text" />
+
+    </RadioGroup>
+</merge>
